@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace App.Repositories;
+namespace App.Repositories.Products;
 
 public class ProductConfiguration
 {
@@ -13,4 +13,3 @@ public class ProductConfiguration
         builder.Property(p => p.Stock).IsRequired();
     }
 }
-
