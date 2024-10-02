@@ -51,7 +51,7 @@ public class ProductService(IProductRepository productRepository, IUnitOfWork un
         return ServiceResult<ProductDto>.Success(productDto!)!;
     }
 
-    public async Task<ServiceResult<CreateProductResponse>> CreateProductAsync(CreateProductRequest request)
+    public async Task<ServiceResult<CreateProductResponse>> CreateAsync(CreateProductRequest request)
     {
         var product = new Product
         {
