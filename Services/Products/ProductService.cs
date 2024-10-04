@@ -87,6 +87,21 @@ public class ProductService(IProductRepository productRepository, IUnitOfWork un
         return ServiceResult.Success(HttpStatusCode.NoContent);
     }
 
+    public async Task<ServiceResult> UpdateStockAsync(UpdateProductStockRequest updateProductStockRequest)
+    {
+        var product = await productRepository.GetByIdAsync(updateProductStockRequest.ProductId);
+
+        if (product == null) return ServiceResult.Failure(new List<string> { "Product not found" }, HttpStatusCode.NotFound);
+
+        product.Stock = updateProductStockRequest.Quantity;
+
+        productRepository.Update(product);
+
+        await unitOfWork.SaveChangesAsync();
+
+        return ServiceResult.Success(HttpStatusCode.NoContent);
+    }
+
     public async Task<ServiceResult> DeleteAsync(int id)
     {
         var product = await productRepository.GetByIdAsync(id);
