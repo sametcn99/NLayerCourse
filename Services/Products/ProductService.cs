@@ -64,7 +64,7 @@ public class ProductService(IProductRepository productRepository, IUnitOfWork un
 
         await unitOfWork.SaveChangesAsync();
 
-        return ServiceResult<CreateProductResponse>.Success(new CreateProductResponse(product.Id));
+        return ServiceResult<CreateProductResponse>.SuccessAsCreated(new CreateProductResponse(product.Id), $"api/products/{product.Id}");
     }
 
     public async Task<ServiceResult> UpdateAsync(int id, UpdateProductRequest request)

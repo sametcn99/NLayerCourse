@@ -15,10 +15,34 @@ public class ServiceResult<T>
 
     [JsonIgnore] public HttpStatusCode Status { get; set; }
 
+    [JsonIgnore] public string? UrlAsCreated { get; set; }
+
 
     // Static factory methods
-    public static ServiceResult<T> Success(T data, HttpStatusCode status = HttpStatusCode.OK) { return new ServiceResult<T> { Data = data, Status = status }; }
-    public static ServiceResult<T> Failure(List<string> errorMessage, HttpStatusCode status = HttpStatusCode.BadRequest) { return new ServiceResult<T> { ErrorMessage = errorMessage, Status = status }; }
+    public static ServiceResult<T> Success(T data, HttpStatusCode status = HttpStatusCode.OK)
+    {
+        return new ServiceResult<T>
+        {
+            Data = data,
+            Status = status
+        };
+    }
+    public static ServiceResult<T> Failure(List<string> errorMessage, HttpStatusCode status = HttpStatusCode.BadRequest)
+    {
+        return new ServiceResult<T>
+        {
+            ErrorMessage = errorMessage,
+            Status = status
+        };
+    }
+    public static ServiceResult<T> SuccessAsCreated(T data, string UrlAsCreated)
+    {
+        return new ServiceResult<T>
+        {
+            Data = data,
+            Status = HttpStatusCode.Created,
+        };
+    }
 }
 
 public class ServiceResult
