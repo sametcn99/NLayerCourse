@@ -1,11 +1,14 @@
 ﻿using App.Repositories.Interfaces;
 using App.Repositories.Products;
+using App.Services.Products.Create;
+using App.Services.Products.Update;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace App.Services.Products;
 
-public class ProductService(IProductRepository productRepository, IUnitOfWork unitOfWork) : IProductService
+public class ProductService(IProductRepository productRepository, IUnitOfWork unitOfWork, IMapper mapper) : IProductService
 {
     public async Task<ServiceResult<List<ProductDto>>> GetTopPriceProductsAsync(int count)
     {
@@ -20,7 +23,11 @@ public class ProductService(IProductRepository productRepository, IUnitOfWork un
     {
         var products = await productRepository.GetAll().ToListAsync();
 
-        var productsAsDto = products.Select(p => new ProductDto(p.Id, p.Name, p.Price, p.Stock)).ToList();
+        #region Manual Mapping
+        //var productsAsDto = products.Select(p => new ProductDto(p.Id, p.Name, p.Price, p.Stock)).ToList();
+        #endregion
+
+        var productsAsDto = mapper.Map<List<ProductDto>>(products); // Using AutoMapper to map the entities to DTOs
 
         return ServiceResult<List<ProductDto>>.Success(productsAsDto)!;
     }
@@ -41,12 +48,16 @@ public class ProductService(IProductRepository productRepository, IUnitOfWork un
     {
         var product = await productRepository.GetByIdAsync(id);
 
-        if (product == null)
+        if (product is null)
         {
-            ServiceResult<Product>.Failure(new List<string> { "Product not found" }, HttpStatusCode.NotFound);
+            return ServiceResult<ProductDto?>.Failure(new List<string> { "Product not found" }, HttpStatusCode.NotFound);
         }
 
-        var productDto = new ProductDto(product!.Id, product.Name, product.Price, product.Stock);
+        #region Manual Mapping
+        //var productDto = new ProductDto(product!.Id, product.Name, product.Price, product.Stock);
+        #endregion
+
+        var productDto = mapper.Map<ProductDto>(product); // Using AutoMapper to map the entity to DTO
 
         return ServiceResult<ProductDto>.Success(productDto!)!;
     }

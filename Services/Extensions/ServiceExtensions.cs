@@ -11,9 +11,10 @@ public static class ServiceExtensions
 {
     public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<IProductService, ProductService>();
-        services.AddFluentValidationAutoValidation();
-        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        services.AddScoped<IProductService, ProductService>(); // Add ProductService to the service collection
+        services.AddFluentValidationAutoValidation(); // Add FluentValidation auto validation to the service collection
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly()); // Add FluentValidation validators to the service collection
+        services.AddAutoMapper(Assembly.GetExecutingAssembly()); // Add AutoMapper to the service collection
         return services;
     }
 }
