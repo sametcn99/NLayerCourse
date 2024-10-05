@@ -24,6 +24,8 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 
 var app = builder.Build();
 
+app.UseExceptionHandler(x => { }); // Add this line to the Configure method in the Program class to enable the global exception handler.
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

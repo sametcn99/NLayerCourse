@@ -56,7 +56,6 @@ public class ServiceResult
 
     [JsonIgnore] public HttpStatusCode Status { get; set; }
 
-
     // Static factory methods
     public static ServiceResult Success(HttpStatusCode status = HttpStatusCode.OK) { return new ServiceResult { Status = status }; }
     public static ServiceResult Failure(List<string> errorMessage, HttpStatusCode status = HttpStatusCode.BadRequest) { return new ServiceResult { ErrorMessage = errorMessage, Status = status }; }
